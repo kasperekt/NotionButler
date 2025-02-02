@@ -1,0 +1,43 @@
+# Node modules
+node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependency directories
+.pnp
+.pnp.js
+
+# Testing
+coverage/
+
+# Production
+build/
+dist/
+
+# Miscellaneous
+.DS_Store
+Thumbs.db
+
+# Local environment files
+.env
+.env.local
+.env.*.local
+
+# pnpm
+.pnpm-store/
+
+# TypeScript
+*.tsbuildinfo
+
+# Ignore any lock files
+pnpm-lock.yaml
+yarn.lock
+package-lock.json
+
+# Ignore the functions build output
+functions/**/dist/

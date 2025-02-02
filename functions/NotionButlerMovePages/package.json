@@ -1,0 +1,17 @@
+{
+    "name": "notion-butler-move-pages",
+    "version": "1.0.0",
+    "main": "dist/index.js",
+    "scripts": {
+        "build": "tsc"
+    },
+    "dependencies": {
+        "@aws-sdk/client-ssm": "^3.738.0",
+        "@notionhq/client": "^2.2.15",
+        "@types/aws-lambda": "^8.10.147",
+        "@types/dotenv": "^6.1.1",
+        "aws-lambda": "^1.0.7",
+        "dotenv": "^16.4.7",
+        "typescript": "^5.7.3"
+    }
+}

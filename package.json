@@ -1,0 +1,13 @@
+{
+  "name": "notion-butler",
+  "private": true,
+  "workspaces": [
+    "functions/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0"
+  }
+}
