@@ -8,7 +8,6 @@ dotenv.config();
 interface EnvVariables {
     NOTION_VERSION?: string;
     AWS_REGION?: string;
-    NOTION_TOKEN_SSM_PATH?: string;
 }
 
 declare global {
@@ -18,27 +17,6 @@ declare global {
 }
 
 const ssm = new SSMClient({ region: process.env.AWS_REGION });
-
-const getNotionToken = async (): Promise<string> => {
-    const getParameterCommand = new GetParameterCommand({
-        Name: process.env.NOTION_TOKEN_SSM_PATH,
-        WithDecryption: true
-    });
-
-    try {
-        const parameterResult = await ssm.send(getParameterCommand);
-        const token = parameterResult.Parameter?.Value;
-
-        if (!token) {
-            throw new Error('NotionToken parameter is missing or empty.');
-        }
-
-        return token;
-    } catch (error) {
-        console.error('Error fetching NotionToken parameter:', error);
-        throw new Error('Failed while getting NotionToken from SSM');
-    }
-};
 
 interface SchedulesConfig {
     accessToken: string;
