@@ -1,7 +1,6 @@
-import { Client } from '@notionhq/client';
-import { GetParameterCommand, SSMClient } from '@aws-sdk/client-ssm';
 import { Handler } from 'aws-lambda';
 import { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
+import { getNotionClient, getDatabaseId } from 'notion-butler-shared';
 
 interface EnvVariables {
     AWS_REGION: string;
@@ -37,54 +36,11 @@ interface SummarizeTasksResponse {
     body: string;
 }
 
-const ssm = new SSMClient({ region: process.env.AWS_REGION });
-
-const getNotionClient = async (): Promise<Client> => {
-    const getParameterCommand = new GetParameterCommand({
-        Name: '/NotionButler/NotionToken',
-        WithDecryption: true
-    });
-
-    try {
-        const parameterResult = await ssm.send(getParameterCommand);
-        const token = parameterResult.Parameter?.Value;
-
-        if (!token) {
-            throw new Error('NotionToken parameter is missing or empty.');
-        }
-
-        return new Client({ auth: token });
-    } catch (error) {
-        console.error('Error fetching NotionToken parameter:', error);
-        throw new Error('Failed while getting NotionToken from SSM');
-    }
-};
-
-const getDatabaseId = async (): Promise<string> => {
-    const getParameterCommand = new GetParameterCommand({
-        Name: '/NotionButler/Personal/TasksDatabase'
-    });
-
-    try {
-        const parameterResult = await ssm.send(getParameterCommand);
-        const databaseId = parameterResult.Parameter?.Value;
-
-        if (!databaseId) {
-            throw new Error('TasksDatabase parameter is missing or empty.');
-        }
-
-        return databaseId;
-    } catch (error) {
-        console.error('Error fetching TasksDatabase parameter:', error);
-        throw new Error('Failed while getting TasksDatabase from SSM');
-    }
-};
-
 export const handler: Handler<SummarizeTasksInput, SummarizeTasksResponse> = async (event) => {
     try {
         // Get required clients and IDs
         const notion = await getNotionClient();
-        const databaseId = event.databaseId || await getDatabaseId();
+        const databaseId = event.databaseId || await getDatabaseId('Personal/TasksDatabase');
         
         // Validate inputs
         if (!databaseId) {

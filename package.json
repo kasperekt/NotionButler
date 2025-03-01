@@ -2,10 +2,14 @@
   "name": "notion-butler",
   "private": true,
   "workspaces": [
+    "shared",
     "functions/*"
   ],
   "scripts": {
-    "build": "npm run build --workspaces"
+    "build": "cd shared && npm run build && cd .. && npm run build-functions",
+    "build-functions": "npm run build --workspaces --if-present -- --exclude='notion-butler-shared'",
+    "test": "cd shared && npm test && cd .. && npm run test-functions",
+    "test-functions": "npm run test --workspaces --if-present -- --exclude='notion-butler-shared'"
   },
   "devDependencies": {
     "typescript": "^5.7.0"

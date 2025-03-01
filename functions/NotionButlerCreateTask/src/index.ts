@@ -1,6 +1,6 @@
 import { Client } from '@notionhq/client'
 import { GetParameterCommand, SSMClient } from '@aws-sdk/client-ssm';
-import { APIGatewayProxyHandler, Handler } from 'aws-lambda';
+import {  Handler } from 'aws-lambda';
 import { markdownToRichText } from '@tryfabric/martian'
 
 interface EnvVariables {
