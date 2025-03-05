@@ -40,7 +40,7 @@ export const handler: Handler<SummarizeTasksInput, SummarizeTasksResponse> = asy
     try {
         // Get required clients and IDs
         const notion = await getNotionClient();
-        const databaseId = event.databaseId || await getDatabaseId('Personal/TasksDatabase');
+        const databaseId = await getDatabaseId('Personal/TasksDatabase');
         
         // Validate inputs
         if (!databaseId) {
