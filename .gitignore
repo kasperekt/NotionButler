@@ -41,3 +41,4 @@ package-lock.json
 
 # Ignore the functions build output
 functions/**/dist/
+*.zip
